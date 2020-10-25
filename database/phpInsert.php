@@ -2,14 +2,15 @@
   //SQLサーバー接続
   include "./pdo.php";
   
-  while ($row = $result->fetch_assoc()) {
-      print('<p>');
-      print('id='.$row['id']);
-      print(',name='.$row['name']);
-      print('</p>');
+  $id = 5;
+  $name = "Toyama's Wine";
+
+  if (!is_numeric($name)) {
+      $name = mysqli_real_escape_string($link, $name);
+      $name = "'" . $name . "'";
   }
-  print('<p>データを追加します。</p>');
-  $sql = "INSERT INTO shouhin (id, name) VALUES (4, 'プリンター')";
+  $sql = "INSERT INTO shouhin (id, name) VALUES ($id, $name)";
+  print('<p>エスケープ後のデータ:'.$name.'</p>');
   $result_flag = mysqli_query($link, $sql);
   if (!$result_flag) {
       die('INSERTクエリーが失敗しました。'.mysqli_error($link));
@@ -25,6 +26,7 @@
       print(',name='.$row['name']);
       print('</p>');
   }
+
   //SQLサーバー切断
   include "./close.php";
 ?>
